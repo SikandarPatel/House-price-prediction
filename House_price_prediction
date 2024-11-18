@@ -1,0 +1,306 @@
+{
+ "nbformat": 4,
+ "nbformat_minor": 0,
+ "metadata": {
+  "colab": {
+   "name": "House Price Prediction.ipynb",
+   "provenance": [],
+   "authorship_tag": "ABX9TyPZl4d0nA5Qmq8X1mDqSb1O"
+  },
+  "kernelspec": {
+   "name": "python3",
+   "display_name": "Python 3"
+  },
+  "language_info": {
+   "name": "python"
+  }
+ },
+ "cells": [
+  {
+   "cell_type": "markdown",
+   "source": [
+    "# **House Price Prediction**"
+   ],
+   "metadata": {
+    "id": "dqZ-nhxiganh"
+   }
+  },
+  {
+   "cell_type": "markdown",
+   "source": [
+    "This project uses machine learning to predict house prices based on various features like square footage, number of bedrooms, etc."
+   ],
+   "metadata": {
+    "id": "gScHkw6jjrLo"
+   }
+  },
+  {
+   "cell_type": "markdown",
+   "source": [
+    "## **Objective**"
+   ],
+   "metadata": {
+    "id": "Xns_rCdhh-vZ"
+   }
+  },
+  {
+   "cell_type": "markdown",
+   "source": [
+    "The goal of this project is to create a model that predicts house prices based on given features."
+   ],
+   "metadata": {
+    "id": "9sPvnFM1iI9l"
+   }
+  },
+  {
+   "cell_type": "markdown",
+   "source": [
+    "## **Data Source**"
+   ],
+   "metadata": {
+    "id": "-Vbnt9CciKJP"
+   }
+  },
+  {
+   "cell_type": "markdown",
+   "source": [
+    "The dataset is sourced from a public repository like Kaggle or UCI Machine Learning Repository."
+   ],
+   "metadata": {
+    "id": "sGcv5WqQiNyl"
+   }
+  },
+  {
+   "cell_type": "markdown",
+   "source": [
+    "## **Import Libraries**"
+   ],
+   "metadata": {
+    "id": "r7GrZzX0iTlV"
+   }
+  },
+  {
+   "cell_type": "code",
+   "source": [
+    "import pandas as pd\n",
+    "import numpy as np\n",
+    "import matplotlib.pyplot as plt\n",
+    "import seaborn as sns\n",
+    "from sklearn.model_selection import train_test_split\n",
+    "from sklearn.linear_model import LinearRegression\n",
+    "from sklearn.metrics import mean_squared_error"
+   ],
+   "metadata": {
+    "id": "UkK6NH9DiW-X"
+   },
+   "execution_count": null,
+   "outputs": []
+  },
+  {
+   "cell_type": "markdown",
+   "source": [
+    "## **Import Data**"
+   ],
+   "metadata": {
+    "id": "9lHPQj1XiOUc"
+   }
+  },
+  {
+   "cell_type": "code",
+   "source": [
+    "df = pd.read_csv('house_prices.csv')\n",
+    "df.head()"
+   ],
+   "metadata": {
+    "id": "zcU1fdnGho6M"
+   },
+   "execution_count": null,
+   "outputs": []
+  },
+  {
+   "cell_type": "markdown",
+   "source": [
+    "## **Describe Data**"
+   ],
+   "metadata": {
+    "id": "7PUnimBoiX-x"
+   }
+  },
+  {
+   "cell_type": "code",
+   "source": [
+    "df.describe()"
+   ],
+   "metadata": {
+    "id": "kG15arusiZ8Z"
+   },
+   "execution_count": null,
+   "outputs": []
+  },
+  {
+   "cell_type": "markdown",
+   "source": [
+    "## **Data Visualization**"
+   ],
+   "metadata": {
+    "id": "oBGX4Ekniriz"
+   }
+  },
+  {
+   "cell_type": "code",
+   "source": [
+    "sns.pairplot(df)\n",
+    "plt.show()"
+   ],
+   "metadata": {
+    "id": "lW-OIRK0iuzO"
+   },
+   "execution_count": null,
+   "outputs": []
+  },
+  {
+   "cell_type": "markdown",
+   "source": [
+    "## **Data Preprocessing**"
+   ],
+   "metadata": {
+    "id": "UqfyPOCYiiww"
+   }
+  },
+  {
+   "cell_type": "code",
+   "source": [
+    "df = df.dropna()"
+   ],
+   "metadata": {
+    "id": "3cyr3fbGin0A"
+   },
+   "execution_count": null,
+   "outputs": []
+  },
+  {
+   "cell_type": "markdown",
+   "source": [
+    "## **Define Target Variable (y) and Feature Variables (X)**"
+   ],
+   "metadata": {
+    "id": "2jXJpdAuiwYW"
+   }
+  },
+  {
+   "cell_type": "code",
+   "source": [
+    "X = df.drop('Price', axis=1)\n",
+    "y = df['Price']"
+   ],
+   "metadata": {
+    "id": "QBCakTuli57t"
+   },
+   "execution_count": null,
+   "outputs": []
+  },
+  {
+   "cell_type": "markdown",
+   "source": [
+    "## **Train Test Split**"
+   ],
+   "metadata": {
+    "id": "90_0q_Pbi658"
+   }
+  },
+  {
+   "cell_type": "code",
+   "source": [
+    "X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.2, random_state=42)"
+   ],
+   "metadata": {
+    "id": "u60YYaOFi-Dw"
+   },
+   "execution_count": null,
+   "outputs": []
+  },
+  {
+   "cell_type": "markdown",
+   "source": [
+    "## **Modeling**"
+   ],
+   "metadata": {
+    "id": "cIhyseNria7W"
+   }
+  },
+  {
+   "cell_type": "code",
+   "source": [
+    "model = LinearRegression()\n",
+    "model.fit(X_train, y_train)"
+   ],
+   "metadata": {
+    "id": "Toq58wpkjCw7"
+   },
+   "execution_count": null,
+   "outputs": []
+  },
+  {
+   "cell_type": "markdown",
+   "source": [
+    "## **Model Evaluation**"
+   ],
+   "metadata": {
+    "id": "vhAwWfG0jFun"
+   }
+  },
+  {
+   "cell_type": "code",
+   "source": [
+    "y_pred = model.predict(X_test)\n",
+    "mse = mean_squared_error(y_test, y_pred)\n",
+    "print(f'Mean Squared Error: {mse}')"
+   ],
+   "metadata": {
+    "id": "lND3jJj_jhx4"
+   },
+   "execution_count": null,
+   "outputs": []
+  },
+  {
+   "cell_type": "markdown",
+   "source": [
+    "## **Prediction**"
+   ],
+   "metadata": {
+    "id": "8AzwG7oLjiQI"
+   }
+  },
+  {
+   "cell_type": "code",
+   "source": [
+    "new_data = [[3000, 3, 2]]  # Example input: 3000 sqft, 3 bedrooms, 2 bathrooms\n",
+    "predicted_price = model.predict(new_data)\n",
+    "print(f'Predicted Price: ${predicted_price[0]:,.2f}')"
+   ],
+   "metadata": {
+    "id": "JLebGzDJjknA"
+   },
+   "execution_count": null,
+   "outputs": []
+  },
+  {
+   "cell_type": "markdown",
+   "source": [
+    "## **Explanation**"
+   ],
+   "metadata": {
+    "id": "SBo38CJZjlEX"
+   }
+  },
+  {
+   "cell_type": "markdown",
+   "source": [
+    "This project demonstrates how to use a linear regression model to predict house prices based on certain features."
+   ],
+   "metadata": {
+    "id": "Ybi8FR9Kjv00"
+   }
+  }
+ ]
+}
